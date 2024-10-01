@@ -7,12 +7,14 @@ On: 22.05.23, 10:12
 import logging
 import os
 
-from qsprpred.data import QSPRDataset, MoleculeTable
-from qsprpred.data.sources.papyrus import Papyrus
-from qsprpred.data import ScaffoldSplit
-from qsprpred.data.descriptors.fingerprints import MorganFP
-from qsprpred.data.processing.feature_filters import LowVarianceFilter, HighCorrelationFilter
+from qsprpred.data import MoleculeTable, QSPRTable, ScaffoldSplit
 from qsprpred.data.chem.scaffolds import BemisMurcko
+from qsprpred.data.descriptors.fingerprints import MorganFP
+from qsprpred.data.processing.feature_filters import (
+    HighCorrelationFilter,
+    LowVarianceFilter,
+)
+from qsprpred.data.sources.papyrus import Papyrus
 from qsprpred.models.scikit_learn import SklearnModel
 
 
@@ -48,7 +50,7 @@ def fetch_example_dataset():
 
 def prepare_example_dataset(mol_table, target_props, force_build=False):
     """
-    Converts a molecule table to a QSPRDataset and prepares it for training.
+    Converts a molecule table to a QSPRTable and prepares it for training.
 
     Args:
         mol_table: molecule table to convert
@@ -56,11 +58,11 @@ def prepare_example_dataset(mol_table, target_props, force_build=False):
         force_build: if True, the dataset will be prepared even if it already exists
 
     Returns:
-        QSPRDataset: the prepared data set
+        QSPRTable: the prepared data set
 
     """
 
-    dataset = QSPRDataset.fromMolTable(mol_table, target_props=target_props)
+    dataset = QSPRTable.fromMolTable(mol_table, target_props=target_props)
     dataset.featureNames = mol_table.getDescriptorNames()
     dataset.loadDescriptorsToSplits()
     if not force_build and not dataset.hasDescriptors():
@@ -113,8 +115,10 @@ def fetch_example_models(models, target_props, force_build=False):
 
         # only train if required
         if force_build or not os.path.exists(model.metaFile):
-            from qsprpred.models.assessment.methods import CrossValAssessor, \
-                TestSetAssessor
+            from qsprpred.models.assessment.methods import (
+                CrossValAssessor,
+                TestSetAssessor,
+            )
             metric = "roc_auc" if dataset.targetProperties[0].task.isClassification() else "r2"
             CrossValAssessor(scoring=metric)(model, dataset)
             TestSetAssessor(scoring=metric)(model, dataset)

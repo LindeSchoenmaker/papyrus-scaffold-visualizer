@@ -6,19 +6,18 @@ On: 05.10.22, 16:37
 """
 import threading
 import time
+from typing import List, Literal
 
 import molplotly
 import pandas as pd
 import plotly.express as px
 from qsprpred import ModelTasks
-from qsprpred.data import MoleculeTable, QSPRDataset
+from qsprpred.data import MoleculeTable, QSPRTable
 from qsprpred.data.descriptors.sets import DataFrameDescriptorSet
 from qsprpred.models import QSPRModel
 from qsprpred.plotting.base_plot import ModelPlot
 
 from scaffviz.clustering.manifold import Manifold
-from typing import List, Literal
-
 from scaffviz.data.manifold_table import ManifoldTable
 
 
@@ -123,7 +122,7 @@ class Plot:
 
 class ModelPerformancePlot(ModelPlot):
 
-    def __init__(self, manifold : Manifold, models: List[QSPRModel], datasets : List[QSPRDataset], ports: List[int],card_props = None, plot_type = Literal["errors", "splits", "predictions", "labels"], async_execution=True):
+    def __init__(self, manifold : Manifold, models: List[QSPRModel], datasets : List[QSPRTable], ports: List[int],card_props = None, plot_type = Literal["errors", "splits", "predictions", "labels"], async_execution=True):
         super().__init__(models)
         # some checks
         if len(ports) != len(set(ports)):
