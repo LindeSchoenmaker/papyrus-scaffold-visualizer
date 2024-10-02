@@ -5,11 +5,10 @@ Created by: Martin Sicho
 On: 22.05.23, 9:55
 """
 from qsprpred import TargetTasks
-
 from scaffviz.clustering.manifold import TSNE
-from utils import fetch_example_models
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from scaffviz.depiction.plot import ModelPerformancePlot
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from utils import fetch_example_models
 
 # fetch two example models (single task classifier and single task regressor)
 models, datasets = fetch_example_models(

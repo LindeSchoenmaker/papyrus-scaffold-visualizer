@@ -82,7 +82,7 @@ def prepare_example_dataset(mol_table, target_props, force_build=False):
         print("Data set already prepared. Preparation skipped.")
     print(f"Number of samples train set: {len(dataset.y)}")
     print(
-        f"Number of samples test set: {len(dataset.y_ind)}, {len(dataset.y_ind) / len(dataset.df) * 100}%")
+        f"Number of samples test set: {len(dataset.y_ind)}, {len(dataset.y_ind) / len(dataset.getDF()) * 100}%")
 
     return dataset
 

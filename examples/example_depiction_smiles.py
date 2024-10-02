@@ -7,13 +7,12 @@ On: 10.10.22, 16:05
 from qsprpred.data import MoleculeTable
 from qsprpred.data.chem.scaffolds import BemisMurcko
 from qsprpred.data.descriptors.fingerprints import MorganFP
-
 from scaffviz.clustering.manifold import TSNE
 from scaffviz.depiction.plot import Plot
 
 if __name__ == "__main__":
     # create a dataset
-    dataset = MoleculeTable.fromSMILES('smiles', ['CN1C2CCC1C(C(C2)OC(=O)C3=CC=CC=C3)C(=O)OC', 'O=C(OCCN(CC)CC)c1ccc(N)cc1', 'CCO'])
+    dataset = MoleculeTable.fromSMILES('smiles', ['CN1C2CCC1C(C(C2)OC(=O)C3=CC=CC=C3)C(=O)OC', 'O=C(OCCN(CC)CC)c1ccc(N)cc1', 'CCO'], path=".'/")
     dataset.addProperty("Name", ["cocaine", "procaine", "ethanol"])
     # add descriptors and scaffolds
     dataset.addDescriptors([MorganFP(radius=3, nBits=2048)], recalculate=True)

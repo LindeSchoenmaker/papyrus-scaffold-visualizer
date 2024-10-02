@@ -61,7 +61,7 @@ class Plot:
         Returns:
             `None`
         """
-        title_data = title_data or table.smilesCol
+        title_data = title_data or table.smilesProp
         table = ManifoldTable.fromMolTable(table, name=f"{table.name}_manifold")
         manifold_cols = table.addManifoldData(self.manifold, recalculate=recalculate) if self.manifold else (x, y)
         if not manifold_cols[0] and not manifold_cols[1]:
@@ -103,10 +103,10 @@ class Plot:
         # interactive plot:
         excluded = df.columns[df.columns.str.contains('RDMol')].tolist() + list(table.getDescriptorNames()) + list(manifold_cols) + df.columns[~df.columns.isin(card_data)].tolist()
         included = [title_data] + [col for col in df.columns if col not in excluded]
-        smiles_col = [table.smilesCol] + table.getScaffoldNames() if table.hasScaffolds else [table.smilesCol]
+        smilesProp = [table.smilesProp] + table.getScaffoldNames() if table.hasScaffolds else [table.smilesProp]
         app_scatter = molplotly.add_molecules(fig=fig,
           df=df,
-          smiles_col=smiles_col,
+          smiles_col=smilesProp,
           title_col= title_data,
           color_col = color_by,
           caption_cols = included,
@@ -220,9 +220,9 @@ class ModelPerformancePlot(ModelPlot):
                 manifold_cols = []
             else:
                 manifold_cols = manifold_cols.columns.tolist()
-            ds_subset = ds.getDF()[[ds.smilesCol] + self.cardProps + ds.indexCols + manifold_cols]
+            ds_subset = ds.getDF()[[ds.smilesProp] + self.cardProps + ds.indexCols + manifold_cols]
             df_all = ds_subset.merge(df_all, left_index=True, right_index=True)
-            mt = MoleculeTable(f"{model.name}_perfplot_{self.plotType}_p{port}", df=df_all, smiles_col=ds.smilesCol, index_cols=ds.indexCols)
+            mt = MoleculeTable(f"{model.name}_perfplot_{self.plotType}_p{port}", df=df_all, smilesProp=ds.smilesProp, index_cols=ds.indexCols)
             features = ds.getFeatures(concat=True)
             mt.addDescriptors([DataFrameDescriptorSet(features)])
 

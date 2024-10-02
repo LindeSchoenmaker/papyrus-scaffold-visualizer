@@ -5,10 +5,9 @@ Created by: Martin Sicho
 On: 02.11.22, 14:09
 """
 from qsprpred.data.descriptors.fingerprints import MorganFP
-
-from examples.utils import fetch_example_dataset
 from scaffviz.clustering.manifold import TSNE
 from scaffviz.depiction.plot import Plot
+from utils import fetch_example_dataset
 
 if __name__ == '__main__':
     # load data
